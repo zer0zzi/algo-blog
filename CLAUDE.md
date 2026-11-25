@@ -84,4 +84,5 @@
 - 문제 JSON에 `omitted_images`가 있으면 이미지가 빠진 것이므로, 입출력 예 설명이 이미지에 의존해 보이면 "이미지 내용 확인 필요"로 표시한다.
 - 학습 모드 구현됨: Claude Code 슬래시 명령 `/learn <boj|programmers> <번호> [--force]` (`.claude/commands/learn.md`, API 키 불필요). 결과는 `problems/<플랫폼>/<번호>.learn.md`에 저장된다.
 - `src/learn.py`는 API 키 방식의 대안으로 남겨 둔 것이다. (`ANTHROPIC_API_KEY` 필요, 실제 호출은 검증 전)
-- 아직 없음: 코치/초안 모드
+- 코치 모드 구현됨: `/coach <boj|programmers> <번호> [hint|review <풀이파일>|answer]` (`.claude/commands/coach.md`). 힌트는 개념 → 접근 → 핵심 아이디어 3단계로 한 번에 하나씩 주고, 진행 기록은 `problems/<플랫폼>/<번호>.coach.md`에 쓴다. 해설은 `answer`를 요청받았을 때만 보여 준다.
+- 아직 없음: 초안 모드
