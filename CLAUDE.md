@@ -78,4 +78,5 @@
 - 프로그래머스 등록 구현됨: `.venv/bin/python src/programmers.py add <문제번호>` (템플릿 .md 생성 → 붙여 넣기 → 같은 명령으로 JSON 변환). 이미지 파일명 줄은 자동 제거하고 `omitted_images`에 개수를 기록한다.
 - 알고리즘 유형을 모르면 사용자가 비워 둔다. 이 경우 AI가 추정하되 "확인 필요"로 표시한다.
 - 문제 JSON에 `omitted_images`가 있으면 이미지가 빠진 것이므로, 입출력 예 설명이 이미지에 의존해 보이면 "이미지 내용 확인 필요"로 표시한다.
-- 아직 없음: 학습/코치/초안 모드
+- 학습 모드 구현됨: `.venv/bin/python src/learn.py <boj|programmers> <번호> [--force]` (모델 claude-sonnet-5-5, 비용 절감용. 결과는 `problems/<플랫폼>/<번호>.learn.json`에 캐시). `.env`의 `ANTHROPIC_API_KEY` 필요. 실제 API 호출은 키 설정 후 검증 필요.
+- 아직 없음: 코치/초안 모드
