@@ -85,4 +85,5 @@
 - 학습 모드 구현됨: Claude Code 슬래시 명령 `/learn <boj|programmers> <번호> [--force]` (`.claude/commands/learn.md`, API 키 불필요). 결과는 `problems/<플랫폼>/<번호>.learn.md`에 저장된다.
 - `src/learn.py`는 API 키 방식의 대안으로 남겨 둔 것이다. (`ANTHROPIC_API_KEY` 필요, 실제 호출은 검증 전)
 - 코치 모드 구현됨: `/coach <boj|programmers> <번호> [hint|review <풀이파일>|answer]` (`.claude/commands/coach.md`). 힌트는 개념 → 접근 → 핵심 아이디어 3단계로 한 번에 하나씩 주고, 진행 기록은 `problems/<플랫폼>/<번호>.coach.md`에 쓴다. 해설은 `answer`를 요청받았을 때만 보여 준다.
-- 아직 없음: 초안 모드
+- 초안 모드 구현됨: `/draft <boj|programmers> <번호> [풀이파일]` (`.claude/commands/draft.md`) → `drafts/<플랫폼>-<번호>.md` 저장 후 `.venv/bin/python src/render_draft.py <md>`로 붙여넣기용 HTML 생성. 풀이 코드가 있어야 하고, 사용자의 접근/막힌 지점은 `.coach.md`나 사용자 답변에서만 가져온다. 네이버 에디터에 실제로 붙여 넣었을 때 서식이 유지되는지는 검증 필요.
+- 아직 없음: 개념 트래커(배운 개념/약한 부분)
