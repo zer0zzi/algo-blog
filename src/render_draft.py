@@ -34,9 +34,26 @@ STYLES = {
 INLINE_CODE = "background:#f0f0f0;border-radius:3px;padding:1px 5px;font-family:Menlo,Consolas,monospace;font-size:13px;"
 
 
+def _code_to_br(match: re.Match) -> str:
+    """코드 블록의 줄바꿈과 들여쓰기를 네이버 에디터가 지우지 못하는 태그로 바꾼다.
+
+    네이버 에디터는 <pre> 안의 줄바꿈 문자와 연속 공백을 무시하는 경우가 있다.
+    그래서 줄바꿈은 <br>, 줄 앞 들여쓰기는 &nbsp; 로 직접 적는다.
+    """
+    lines = match.group(2).rstrip("\n").split("\n")
+    converted = []
+    for line in lines:
+        stripped = line.lstrip(" ")
+        indent = len(line) - len(stripped)
+        rest = re.sub(r" {2,}", lambda m: "&nbsp;" * len(m.group()), stripped.replace("\t", " " * 4))
+        converted.append("&nbsp;" * indent + rest)
+    return f"{match.group(1)}{'<br>'.join(converted)}</code></pre>"
+
+
 def to_html(md_text: str) -> str:
-    body = markdown.markdown(md_text, extensions=["fenced_code", "sane_lists", "tables"])
+    body = markdown.markdown(md_text, extensions=["fenced_code", "sane_lists", "tables", "nl2br"])
     # 코드 블록 안의 <code> 는 pre 스타일을 따르게 하고, 인라인 <code> 에만 배경을 준다.
+    body = re.sub(r"(<pre><code[^>]*>)(.*?)</code></pre>", _code_to_br, body, flags=re.S)
     body = re.sub(r"<pre><code([^>]*)>", r"<pre PRE_MARK><code\1>", body)
     body = re.sub(r"<code>(?!</)", f'<code style="{INLINE_CODE}">', body)
     for tag, style in STYLES.items():
